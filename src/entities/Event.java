@@ -7,7 +7,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -16,11 +19,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "events")
-@Getter
-@Setter
+@MappedSuperclass
 @NoArgsConstructor
-public class Event {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Event {
 
 	@Id
 	@GeneratedValue
@@ -37,9 +39,9 @@ public class Event {
 	
 	@OneToMany(mappedBy="event", cascade = CascadeType.ALL)
 	private Set<Participation> participants;
+	
 
 	public Event(String title, LocalDate date, String description, EventType event_type, int max_event_participants, Location location, Set<Participation> participants) {
-		super();
 		this.title = title;
 		this.date = date;
 		this.description = description;
