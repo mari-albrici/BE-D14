@@ -1,10 +1,9 @@
-package util;
+package utils;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-
-public class JPAutil {
+public class JpaUtil {
 
     private static final EntityManagerFactory entityManagerFactory;
 

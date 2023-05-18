@@ -4,13 +4,16 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,13 +22,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@MappedSuperclass
+@Table(name = "events")
+//@MappedSuperclass
+@Getter
+@Setter
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Event {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "event_class", discriminatorType = DiscriminatorType.STRING)
+@NamedQuery(name = "soldOutEvents", query = "SELECT e FROM Event e WHERE e.max_event_participants = :max_event_participants")
+@NamedQuery(name = "eventsPerGuest", query = "SELECT e FROM Event e WHERE e.participants= :nome")
+
+
+public class Event {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	private String title;
@@ -37,7 +48,7 @@ public abstract class Event {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Location location;
 	
-	@OneToMany(mappedBy="event", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Participation> participants;
 	
 

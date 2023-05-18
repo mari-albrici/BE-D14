@@ -27,13 +27,15 @@ public class Participation {
 	@GeneratedValue
 	private UUID id;
 	
-	@ManyToOne
-	@JoinColumn(name = "person_id", referencedColumnName = "id")
-	private Person person;
-	
-	@ManyToOne
-	@JoinColumn(name = "event_id", referencedColumnName = "id")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "event", referencedColumnName = "id")
 	private Event event;
+	
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "person", referencedColumnName = "id")
+	private Person person;
+
 	
 	@Enumerated(EnumType.STRING)
 	private State state;
