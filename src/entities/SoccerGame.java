@@ -17,8 +17,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-@NamedQuery(name = "wonHomeGames", query = "SELECT sg FROM SoccerGame sg WHERE sg.winningTeam = :homeTeam")
-@NamedQuery(name = "wonAwayGames", query = "SELECT sg FROM SoccerGame sg WHERE sg.winningTeam = :awayTeam")
+@NamedQuery(name = "wonHomeGames", query = "SELECT sg FROM SoccerGame sg WHERE sg.winningTeam = sg.homeTeam")
+@NamedQuery(name = "wonAwayGames", query = "SELECT sg FROM SoccerGame sg WHERE sg.winningTeam = sg.awayTeam")
 @NamedQuery(name = "tieGames", query = "SELECT sg FROM SoccerGame sg WHERE sg.winningTeam IS null")
 
 public class SoccerGame extends Event{

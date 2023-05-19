@@ -23,17 +23,16 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "events")
-//@MappedSuperclass
 @Getter
 @Setter
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "event_class", discriminatorType = DiscriminatorType.STRING)
 @NamedQuery(name = "soldOutEvents", query = "SELECT e FROM Event e WHERE e.max_event_participants = :max_event_participants")
-@NamedQuery(name = "eventsPerGuest", query = "SELECT e FROM Event e WHERE e.participants= :nome")
+//@NamedQuery(name = "eventsPerGuest", query = "SELECT e FROM Event e WHERE e.participants @> :person")
 
 
-public class Event {
+public abstract class Event {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -16,13 +16,14 @@ import dao.ParticipationDAO;
 import dao.PersonDAO;
 import entities.Concert;
 import entities.EventType;
-import entities.Event;
 import entities.Gender;
 import entities.Genre;
 import entities.Location;
 import entities.Participation;
 import entities.Person;
 import entities.State;
+import entities.SoccerGame;
+import entities.AthleticsCompetition;
 import utils.JpaUtil;
 
 
@@ -52,6 +53,7 @@ public class Main {
 		
 		Person alphaPerson = new Person("Mario", "Rossi", "mario.rossi@gmail.com", LocalDate.of(1989, 6, 06), Gender.MALE, new HashSet<>());
 		Person betaPerson = new Person("Luigia", "Rossi", "luigi.rossi@gmail.com", LocalDate.of(1998, 8, 06), Gender.FEMALE, new HashSet<>());
+		Person carolinaKostner= new Person("Carolina", "Kostner", "icequeen@gmail.com", LocalDate.of(1987, 02, 8), Gender.FEMALE, new HashSet<>());
 		
 //		pd.save(betaPerson);
 //		pd.save(alphaPerson);
@@ -61,29 +63,39 @@ public class Main {
 //		ed.save(taylorSwiftConcert);
 //		logger.info(taylorSwiftConcert.getTitle() + " has been saved");
 		
-//		Event luncheon = new Event("Hollywood Luncheon", LocalDate.of(2023, 12, 23), "Beneficienza", EventType.PRIVATO, 800, restaurant, new HashSet<>());
-//		ed.save(luncheon);
-//		logger.info(luncheon.getTitle() + " has been saved");
-//		
-//		Event brunch = new Event("BYOD Brunch", LocalDate.of(2023, 6, 06), "Festa privata", EventType.PRIVATO, 150, villa, new HashSet<>());
-//		ed.save(brunch);
-//		logger.info(brunch.getTitle() + " has been saved");
+		SoccerGame championshipFinal = new SoccerGame("A vs B", LocalDate.of(2023, 12, 23), "Nation Championship Final", EventType.PRIVATO, 800, restaurant, new HashSet<>(), "A", "B", "A", 3, 1);
+//		ed.save(championshipFinal);
+//		logger.info(championshipFinal.getTitle() + " has been saved");
+		
+		AthleticsCompetition olympics = new AthleticsCompetition("Ice Skating Competition", LocalDate.of(2023, 6, 06), "Olympic Games", EventType.PRIVATO, 150, villa, new HashSet<>(), new HashSet<>(), carolinaKostner);
+//		ed.save(olympics);
+//		logger.info(olympics.getTitle() + " has been saved");
 		
 		
 		Set<Participation> participations = new HashSet<>();
 		
 		Participation participationOne = new Participation(alphaPerson, taylorSwiftConcert, State.CONFIRMED);
-//		Participation participationTwo = new Participation(betaPerson, luncheon, State.UNCONFIRMED);
+		Participation participationTwo = new Participation(betaPerson, olympics, State.UNCONFIRMED);
 		
-		participations.add(participationOne);
+//		participations.add(participationOne);
 //		participations.add(participationTwo);
-		
-		pd1.save(participationOne);
+//		
+//		pd1.save(participationOne);
 //		pd1.save(participationTwo);
 
-		ed.getConcertsInStreaming();
-		ed.getConcertsPerGenre(Genre.POP);
-
+		logger.info("**********************************************************");
+		logger.info("Concerts in streaming are: " + ed.getConcertsInStreaming());
+		logger.info("POP concerts are: " + ed.getConcertsPerGenre(Genre.POP));
+		
+		logger.info("**********************************************************");
+		logger.info("Won away games are: " + ed.getWonAwayGames());
+		logger.info("Won home games are: " + ed.getWonHomeGames());
+		logger.info("Tie games are: " + ed.getTieGames());
+		
+		logger.info("**********************************************************");
+//		logger.info("The competitions won by ATHLETE are: " + ed.getCompetitionsPerWinner(carolinaKostner));
+//		logger.info("The PERSON has participated in: " + ed.getCompetitionsPerParticipant(betaPerson));
+		
 		em.close();
 		emf.close();
 

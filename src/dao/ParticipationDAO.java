@@ -1,14 +1,17 @@
 package dao;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NamedQuery;
+import javax.persistence.TypedQuery;
 
+import entities.AthleticsCompetition;
+import entities.Event;
 import entities.Participation;
 
-@NamedQuery(name = "toBeConfirmedForEvent", query = "SELECT p FROM Participation p WHERE p.participation = UNCOFIRMED")
 public class ParticipationDAO {
 
 	private final EntityManager em;
@@ -29,4 +32,12 @@ public class ParticipationDAO {
 		return foundParticipation;
 
 	}
+	
+	public List<Participation> getToBeConfirmedForEvent(Event event){
+		TypedQuery<Participation> query = em.createNamedQuery("toBeConfirmedForEvent", Participation.class);
+		query.setParameter("event", event);
+		return query.getResultList();
+	}
+	
+	
 }

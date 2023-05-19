@@ -70,17 +70,28 @@ public class EventDAO {
 	
 	public List<SoccerGame> getWonAwayGames() {
 		TypedQuery<SoccerGame> query = em.createNamedQuery("wonAwayGames", SoccerGame.class);
+		if(query.getResultList().isEmpty()) {
+			System.out.println("NO AWAY GAMES WERE WON");
+		}
 		return query.getResultList();
 	}
 	
 	public List<SoccerGame> getWonHomeGames() {
 		TypedQuery<SoccerGame> query = em.createNamedQuery("wonHomeGames", SoccerGame.class);
+		if(query.getResultList().isEmpty()) {
+			System.out.println("NO HOME GAMES WERE WON");
+		}
 		return query.getResultList();
 	}
 	
 	public List<SoccerGame> getTieGames() {
 		TypedQuery<SoccerGame> query = em.createNamedQuery("tieGames", SoccerGame.class);
-		return query.getResultList();
+		if(query.getResultList().isEmpty()) {
+			System.out.println("NO GAMES WERE TIED");
+		} else {
+			return query.getResultList();
+		}
+		return null;
 	}
 	
 	public List<AthleticsCompetition> getCompetitionsPerWinner(Person winner){
@@ -88,4 +99,21 @@ public class EventDAO {
 		query.setParameter("winner", winner);
 		return query.getResultList();
 	}
+	
+	public List<AthleticsCompetition> getCompetitionsPerParticipant(Person person){
+		TypedQuery<AthleticsCompetition> query = em.createNamedQuery("competitionsPerParticipant", AthleticsCompetition.class);
+		query.setParameter("athleteSet", person);
+		return query.getResultList();
+	}
+//	
+//	public List<Event> getSoldOutEvents(){
+//		TypedQuery<Event> query = em.createNamedQuery("soldOutEvents", Event.class);
+//		return query.getResultList();
+//	}
+//	
+//	public List<Event> getEventsByGuest(Person person){
+//		TypedQuery<Event> query = em.createNamedQuery("eventsPerGuest", Event.class);
+//		query.setParameter("participants", person);
+//		return query.getResultList();
+//	}
 }

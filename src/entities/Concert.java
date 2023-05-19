@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -20,6 +22,7 @@ import lombok.Setter;
 @NamedQuery(name = "concertsByGenre", query = "SELECT c FROM Concert c WHERE c.genre = :genre")
 public class Concert extends Event{
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "genre")
 	private Genre genre;
 	
